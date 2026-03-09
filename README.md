@@ -58,7 +58,7 @@ python linux/receiver.py
 
 **4. Create a desktop icon (optional)**
 
-Create the file `~/.local/share/applications/bluetooth-transfer.desktop`:
+Create the file `~/.local/share/applications/DaTra.desktop`:
 ```ini
 [Desktop Entry]
 Name=DaTra
