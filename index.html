@@ -687,11 +687,138 @@
     }
 
     /* ── RESPONSIVE ── */
-    @media (max-width: 600px) {
-      nav { padding: 16px 20px; }
-      .nav-links { gap: 20px; }
+
+    /* Tablet landscape & small desktop (max 1024px) */
+    @media (max-width: 1024px) {
+      nav { padding: 16px 32px; }
+      section { padding: 80px 32px; }
+      .hero { padding: 120px 32px 80px; }
+      .demo-grid { grid-template-columns: 1fr 1fr; }
+      .steps { grid-template-columns: repeat(2, 1fr); gap: 40px; }
       .steps::before { display: none; }
-      footer { flex-direction: column; text-align: center; }
+      .cta-box { padding: 48px 32px; }
+    }
+
+    /* Tablet portrait (max 768px) */
+    @media (max-width: 768px) {
+      nav { padding: 14px 24px; }
+      .nav-links { gap: 20px; }
+      nav a { font-size: 0.72rem; }
+
+      .hero { padding: 110px 24px 70px; }
+      .hero h1 { font-size: clamp(2.8rem, 12vw, 4rem); }
+      .hero-desc { font-size: 0.85rem; }
+
+      section { padding: 70px 24px; }
+
+      .features-grid { grid-template-columns: 1fr 1fr; }
+      .demo-grid { grid-template-columns: 1fr; }
+      .demo-screen { min-height: 200px; }
+
+      .steps { grid-template-columns: 1fr 1fr; gap: 32px; }
+
+      .platforms { flex-direction: column; }
+      .platform-pill { min-width: unset; }
+
+      .cta-box { padding: 40px 24px; }
+      .cta-box h2 { font-size: 1.5rem; }
+    }
+
+    /* Mobile nav fix */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .nav-hamburger span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--blue);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .nav-mobile {
+      display: none;
+      position: fixed;
+      top: 57px; left: 0; right: 0;
+      background: rgba(30,30,46,0.97);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      flex-direction: column;
+      padding: 16px 24px;
+      gap: 16px;
+      z-index: 99;
+    }
+
+    .nav-mobile.open { display: flex; }
+
+    .nav-mobile a {
+      color: var(--subtext);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .nav-mobile a:last-child { border-bottom: none; }
+    .nav-mobile a:hover { color: var(--blue); }
+
+    @media (max-width: 600px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 480px) {
+      nav { padding: 14px 16px; }
+      .nav-links { gap: 12px; }
+      nav a { font-size: 0.68rem; letter-spacing: 0.04em; }
+
+      .hero { padding: 100px 16px 60px; }
+      .hero-badge { font-size: 0.65rem; padding: 5px 12px; }
+      .hero h1 { font-size: clamp(2.4rem, 14vw, 3.2rem); }
+      .hero-sub { font-size: 0.72rem; }
+      .hero-desc { font-size: 0.8rem; }
+      .hero-buttons { flex-direction: column; align-items: center; width: 100%; }
+      .btn { width: 100%; justify-content: center; }
+      .scroll-hint { display: none; }
+
+      section { padding: 60px 16px; }
+      .section-title { font-size: 1.4rem; }
+
+      .features-grid { grid-template-columns: 1fr; }
+      .feature-card { padding: 22px 18px; }
+
+      .demo-grid { grid-template-columns: 1fr; }
+      .mock-window { max-width: 100%; }
+      .mock-android { width: 140px; }
+
+      .steps { grid-template-columns: 1fr; gap: 32px; }
+      .step-num { width: 48px; height: 48px; font-size: 1rem; }
+
+      .cta-box { padding: 32px 16px; border-radius: 12px; }
+      .cta-box h2 { font-size: 1.3rem; }
+      .cta-section { padding: 60px 16px; }
+
+      footer { padding: 24px 16px; }
+
+      /* Download cards stack vertically */
+      div[style*="grid-template-columns: repeat(auto-fit, minmax(180px"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+
+    /* Very small phones (max 360px) */
+    @media (max-width: 360px) {
+      .nav-links { gap: 8px; }
+      nav a { font-size: 0.62rem; }
+      .hero h1 { font-size: 2.2rem; }
+      .mock-android { width: 120px; }
     }
   </style>
 </head>
@@ -706,7 +833,19 @@
     <a href="#how">How it works</a>
     <a href="https://github.com" target="_blank">GitHub ↗</a>
   </div>
+  <div class="nav-hamburger" onclick="toggleMenu()" id="hamburger">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
 </nav>
+
+<div class="nav-mobile" id="mobileMenu">
+  <a href="#features" onclick="toggleMenu()">Features</a>
+  <a href="#demo" onclick="toggleMenu()">Demo</a>
+  <a href="#how" onclick="toggleMenu()">How it works</a>
+  <a href="https://github.com" target="_blank">GitHub ↗</a>
+</div>
 
 <!-- ── HERO ── -->
 <div class="hero">
@@ -984,6 +1123,21 @@
 </footer>
 
 <script>
+  // Hamburger menu toggle
+  function toggleMenu() {
+    const menu = document.getElementById('mobileMenu');
+    menu.classList.toggle('open');
+  }
+
+  // Close mobile menu on outside click
+  document.addEventListener('click', (e) => {
+    const menu = document.getElementById('mobileMenu');
+    const hamburger = document.getElementById('hamburger');
+    if (!menu.contains(e.target) && !hamburger.contains(e.target)) {
+      menu.classList.remove('open');
+    }
+  });
+
   // Intersection Observer for fade-in animations
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
