@@ -10,11 +10,11 @@ Transfer files between your Android phone and your laptop over Bluetooth – no 
 datra/
 ├── linux/
 │   ├── receiver.py
+│   ├── setup.sh
 │   └── icon.png
 ├── windows/
 │   ├── receiver_windows.py
 │   └── icon.png
-│   └── icon.ico
 ├── android/
 │   └── DaTra.apk
 └── README.md
@@ -51,24 +51,21 @@ sudo systemctl start bluetooth
 sudo setcap cap_net_raw,cap_net_admin+eip $(which python3)
 ```
 
-**3. Run the app**
+**3. Run the install script**
+
+The install script sets up the desktop icon automatically so DaTra appears in your app launcher.
+
+```bash
+git clone https://github.com/RealDeMa/DaTra-OpenSource.git
+cd datra/linux/
+chmod +x setup.sh
+./setup.sh
+```
+
+**4. Run the app**
 ```bash
 python linux/receiver.py
 ```
-
-**4. Create a desktop icon (optional)**
-
-Create the file `~/.local/share/applications/DaTra.desktop`:
-```ini
-[Desktop Entry]
-Name=DaTra
-Exec=python /path/to/linux/receiver.py
-Icon=/path/to/linux/icon.png
-Terminal=false
-Type=Application
-Categories=Utility;
-```
-Replace `/path/to/` with the actual path on your machine. The app will then appear in your application launcher.
 
 ---
 
